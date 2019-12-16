@@ -1,0 +1,13 @@
+FROM tomcat:jdk8-openjdk-slim
+
+ARG JAVA_OPTS
+
+ENV JAVA_OPTS=$JAVA_OPTS
+
+RUN rm -rf /usr/local/tomcat/webapps/ROOT
+
+ADD target/vblog-api.war /usr/local/tomcat/webapps/ROOT.war
+
+EXPOSE 8080
+
+ENTRYPOINT ["catalina.sh","run"]

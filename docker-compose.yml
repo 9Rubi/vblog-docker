@@ -1,0 +1,67 @@
+version: '3'
+
+services:
+  vblog-web: 
+    image: 9rubi/vblog-web:0.0.1
+    volumes: 
+      - ./dist:/usr/src/app/dist
+  nginx:
+    image: nginx:1.17.6
+    ports:
+      - 80:80
+    volumes:
+      - ./dist:/data/vblog
+      - ./vblog.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - vblog-api
+    networks:
+      front-end:
+        aliases:
+          - vblog-web
+      back-end:
+        aliases:
+          - vblog-web
+  vblog-api:
+    image: 9rubi/vblog:0.0.1
+    ports:
+      - 7080:8080
+    networks:
+      back-end:
+        aliases:
+          - vblog-api
+    depends_on:
+      - database
+    environment: 
+      JAVA_OPTS: '-Dspring.datasource.druid.first.username=root -Dspring.datasource.druid.first.password=admin -Dspring.datasource.druid.first.url=jdbc:mysql://database:3306/vblog -Djava.security.egd=file:/dev/./urandom'
+  database:
+    command: [
+      '--character-set-server=utf8',
+      '--collation-server=utf8_unicode_ci',
+      '--default-time-zone=+8:00'
+    ]     
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+    image: hub.c.163.com/library/mysql:5.7.17
+    restart: always
+          # container_name: mysql
+    networks:
+      back-end:
+        aliases:
+          - database
+    ports:
+      - 5000:3306    
+    volumes:
+      - mysql-data:/var/lib/mysql
+      # - "./conf/my.cnf:/etc/my.cnf"
+      #需要 从gitee 上下载 sql
+      - ./vblog.sql:/docker-entrypoint-initdb.d/vblog.sql
+volumes:
+  mysql-data:
+    driver: local
+networks:
+  front-end:
+    driver: bridge
+  back-end:
+    driver: bridge

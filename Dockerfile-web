@@ -1,0 +1,8 @@
+FROM node:10.13-alpine
+# ENV NODE_ENV production
+WORKDIR /usr/src/app
+COPY . .
+RUN rm package-lock.json && rm -rf node_mudules && npm install -g cnpm --registry=https://registry.npm.taobao.org && cnpm install
+
+VOLUME [ "/usr/src/app/dist" ]
+CMD npm run build
