@@ -13,7 +13,15 @@ File Encoding         : 65001
 Date: 2018-07-06 18:55:14
 */
 
+SET NAMES 'utf8';
+
 SET FOREIGN_KEY_CHECKS = 0;
+
+
+CREATE DATABASE IF NOT EXISTS vblog default charset utf8 COLLATE utf8_general_ci;
+
+use vblog;
+
 
 --  quartz自带表结构
 CREATE TABLE QRTZ_JOB_DETAILS
