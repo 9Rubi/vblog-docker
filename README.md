@@ -8,7 +8,7 @@ docker-compose up -d       （需要 vblog.sql,vblog.conf,docker-compose.yml）
 
 
 
-`Dockerfile-web` 和 `Dockerfile-api` 是分别放入 `vblog` 和 `vblog-web` 项目里的。
+`docker file/Dockerfile-web` 和 `docker file/Dockerfile-api` 是分别放入 `vblog` 和 `vblog-web` 项目里的。
 
 为了不用修改源代码，所以基于tomcat 镜像构建的。
 

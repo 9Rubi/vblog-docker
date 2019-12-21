@@ -17,7 +17,6 @@ SET NAMES 'utf8';
 
 SET FOREIGN_KEY_CHECKS = 0;
 
-
 CREATE DATABASE IF NOT EXISTS vblog default charset utf8 COLLATE utf8_general_ci;
 
 use vblog;
